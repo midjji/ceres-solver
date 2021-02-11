@@ -260,6 +260,16 @@ class CERES_EXPORT Problem {
                                    LossFunction* loss_function,
                                    double* const* const parameter_blocks,
                                    int num_parameter_blocks);
+  // Add a residual block by providing an std::array of parameter blocks
+  template<unsigned int Num>
+  ResidualBlockId AddResidualBlock(CostFunction* cost_function,
+                                   LossFunction* loss_function,
+                                   std::array<double*, Num> parameter_blocks) {
+    return AddResidualBlock(cost_function,
+                            loss_function,
+                            parameter_blocks.data(),
+                            static_cast<int>(parameter_blocks.size()));
+  }
 
   // Add a parameter block with appropriate size to the problem.
   // Repeated calls with the same arguments are ignored. Repeated
